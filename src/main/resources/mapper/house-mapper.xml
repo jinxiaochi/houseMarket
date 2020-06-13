@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="app.dao.HouseMapper">
+	<select id="getHouseCount" resultType="int">
+		SELECT COUNT(*) FROM house WHERE 1 = 1
+		<if test="priceMin!=-1">
+			AND price &gt;= #{priceMin}
+		</if>
+		<if test="priceMax!=-1">
+			AND price &lt;= #{priceMax}
+		</if>
+		<if test="areaMin!=-1">
+			AND area &gt;= #{areaMin}
+		</if>
+		<if test="areaMax!=-1">
+			AND area &lt;= #{areaMax}
+		</if>
+		<if test="type!=0">
+			AND type = #{type}
+		</if>
+		<if test="isNew==1">
+			AND isNew = 1
+		</if>
+		<if test="isNew==0">
+			AND isNew = 0
+		</if>
+		AND location LIKE '%${location}%'
+	</select>
+	
+	<select id="getHouseList" resultType="app.entity.House">
+		SELECT * FROM house WHERE 1 = 1
+		<if test="priceMin!=-1">
+			AND price &gt;= #{priceMin}
+		</if>
+		<if test="priceMax!=-1">
+			AND price &lt;= #{priceMax}
+		</if>
+		<if test="areaMin!=-1">
+			AND area &gt;= #{areaMin}
+		</if>
+		<if test="areaMax!=-1">
+			AND area &lt;= #{areaMax}
+		</if>
+		<if test="type!=0">
+			AND type = #{type}
+		</if>
+		<if test="isNew==1">
+			AND isNew = 1
+		</if>
+		<if test="isNew==0">
+			AND isNew = 0
+		</if>
+		AND location LIKE '%${location}%'
+		<if test="order==0">
+			ORDER BY hot DESC
+		</if>
+		<if test="order==11">
+			ORDER BY price ASC
+		</if>
+		<if test="order==12">
+			ORDER BY price DESC
+		</if>
+		<if test="order==21">
+			ORDER BY area ASC
+		</if>
+		<if test="order==22">
+			ORDER BY area DESC
+		</if>
+		<if test="order==31">
+			ORDER BY type ASC
+		</if>
+		<if test="order==32">
+			ORDER BY type DESC
+		</if>
+		LIMIT #{offset},6
+	</select>
+</mapper>
